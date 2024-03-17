@@ -9,9 +9,16 @@
     ],
     "exclude": [
       "./node_modules",
-      "./doc",
-      "./script"
+      "./doc"
     ]
+  },
+  "sourceType": "module",
+  "templates": {
+    "default": {
+      "staticFiles": {
+        "include": ["./markdown/src"]
+      }
+    }
   },
   "opts": {
     "recurse": true,
