@@ -4,7 +4,7 @@
  * @module cli
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2022
- * @version 1.0.0
+ * @version 1.0.1
  */
 
     ///    CLASS    ///
@@ -13,6 +13,42 @@
  * @class
  */
 class Cli {
+    /**
+     * Contient les clés clavier de validation.
+     * @type {object}
+     * @property {Buffer} y Contient la clé clavier y.
+     * @property {Buffer} Y Contient la clé clavier Y.
+     * @property {Buffer} o Contient la clé clavier o.
+     * @property {Buffer} O Contient la clé clavier O.
+     * @property {Buffer} entrer Contient la clé clavier entrer.
+     */
+    #Key_VALID = {
+        y: Buffer.from([0x79]),
+        Y: Buffer.from([0x59]),
+        o: Buffer.from([0x6F]),
+        O: Buffer.from([0x4F]),
+        entrer: Buffer.from([0x0D])
+    }
+
+    /**
+     * Contient les clés clavier d'invalidation.
+     * @type {object}
+     * @property {Buffer} n Contient la clé clavier n.
+     * @property {Buffer} N Contient la clé clavier N.
+     * @property {Buffer} echape Contient la clé clavier echape.
+     */
+    #KEY_INVALID = {
+        n: Buffer.from([0x6E]),
+        N: Buffer.from([0x4E]),
+        echape: Buffer.from([0x1B])
+    }
+
+    /**
+     * Contient la clé clavier ctrl+c.
+     * @type {Buffer}
+     */
+    #EXIT = Buffer.from([0x03]);
+
     /**
      * La fonction permet d'afficher un titre.</br>
      * Affichage dans la terminale :</br>
@@ -144,21 +180,14 @@ class Cli {
      * 
      * console.log(result);
      * // Affiche true ou false.
+     * @see [Class Cli.Key_VALID]{@link module:cli~Cli#Key_VALID} est utilisé.
+     * @see [Class Cli.KEY_INVALID]{@link module:cli~Cli#KEY_INVALID} est utilisé.
+     * @see [Class Cli.EXIT]{@link module:cli~Cli#EXIT} est utilisé.
      */
     async yesOrNo (txt = "") {
-        let yes = [
-            Buffer.from([0x79]),
-            Buffer.from([0x59]),
-            Buffer.from([0x6F]),
-            Buffer.from([0x4F]),
-            Buffer.from([0x0D])
-        ];
-        let no = [
-            Buffer.from([0x6E]),
-            Buffer.from([0x4E]),
-            Buffer.from([0x1B])
-        ];
-        let ctrlC = Buffer.from([0x03]);
+        let yes = Object.values(this.#Key_VALID);
+        let no = Object.values(this.#KEY_INVALID);
+        let ctrlC = this.#EXIT;
         let result = false;
 
         // Récupération du resultat
