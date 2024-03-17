@@ -8,7 +8,9 @@
 
     "doc": "npm run docPublic && npm run docPrivate",
     "docPublic": "npx jsdoc -c ./conf/docPublic.json",
-    "docPrivate": "npx jsdoc -c ./conf/docPrivate.json"
+    "docPrivate": "npx jsdoc -c ./conf/docPrivate.json",
+
+    "testClassCli": "node test/testCli.js"
   },
   "author": "Nicolas Belvoix",
   "license": "ISC",
