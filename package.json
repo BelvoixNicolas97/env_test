@@ -1,11 +1,14 @@
 {
   "name": "env_test",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "clean": "npx rimraf ./doc ./package-lock.json ./node_modules ./js",
-    "doc": "npx typedoc --options ./conf/typedoc.json"
+
+    "doc": "npm run docPublic && npm run docPrivate",
+    "docPublic": "npx jsdoc -c ./conf/docPublic.json",
+    "docPrivate": "npx jsdoc -c ./conf/docPrivate.json"
   },
   "author": "Nicolas Belvoix",
   "license": "ISC",
