@@ -4,7 +4,7 @@
  * @module cli
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2022
- * @version 1.0.1
+ * @version 1.0.2
  */
 
     ///    CLASS    ///
@@ -180,62 +180,16 @@ class Cli {
      * 
      * console.log(result);
      * // Affiche true ou false.
-     * @see [Class Cli.Key_VALID]{@link module:cli~Cli#Key_VALID} est utilisé.
-     * @see [Class Cli.KEY_INVALID]{@link module:cli~Cli#KEY_INVALID} est utilisé.
-     * @see [Class Cli.EXIT]{@link module:cli~Cli#EXIT} est utilisé.
+     * @see [Class Cli.getBooleanKey()]{@link module:cli~Cli#getBooleanKey} est utilisé.
      */
     async yesOrNo (txt = "") {
-        let yes = Object.values(this.#Key_VALID);
-        let no = Object.values(this.#KEY_INVALID);
-        let ctrlC = this.#EXIT;
         let result = false;
 
+        // Ecriture de la question
+            process.stdout.write(`    ${txt} > `);
+
         // Récupération du resultat
-            await new Promise(function (resolve, reject) {
-                function isInclude (array, buffer) {
-                    let resultBuffer = false;
-
-                    for (let item of array) {
-                        if (Buffer.compare(item, buffer) == 0) {
-                            resultBuffer = true;
-
-                            break;
-                        }
-                    }
-
-                    return resultBuffer;
-                }
-                let callback = function (data) {
-                    if (Buffer.compare(data, ctrlC) == 0) {
-                        process.stdin.setRawMode(false);
-                        process.stdin.off("data", callback);
-                        resolve();
-
-                        process.exit();
-                    }else if (isInclude(yes, data)) {
-                        process.stdin.setRawMode(false);
-                        process.stdin.off("data", callback);
-                        process.stdin.pause();
-
-                        result = true;
-
-                        resolve();
-                    }else if (isInclude(no, data)) {
-                        process.stdin.setRawMode(false);
-                        process.stdin.off("data", callback);
-                        process.stdin.pause();
-
-                        result = false;
-
-                        resolve();
-                    }
-                }
-                
-                process.stdout.write(`    ${txt} > `);
-                process.stdin.resume();
-                process.stdin.setRawMode(true);
-                process.stdin.on("data", callback);
-            });
+            result = await this.#getBooleanKey();
 
         // Write result
             if (result) {
@@ -245,6 +199,96 @@ class Cli {
             }
 
         // Envoie
+            return result;
+    }
+
+    /**
+     * La fonction permet de capturer une réponse boolean à partir du terminal.</br>
+     * <table>
+     *  <thead>
+     *      <tr>
+     *          <th>Résultat</th><th>Clé clavier</th>
+     *      </tr>
+     *  </thead>
+     *  <tbody>
+     *      <tr>
+     *          <td rowspan=5>True</td>
+     *          <td>y</td>
+     *      </tr>
+     *      <tr>
+     *          <td>Y</td>
+     *      </tr>
+     *      <tr>
+     *          <td>o</td>
+     *      </tr>
+     *      <tr>
+     *          <td>O</td>
+     *      </tr>
+     *      <tr>
+     *          <td>Enter</td>
+     *      </tr>
+     *      <tr>
+     *          <td rowspan=3>False</td>
+     *          <td>n</td>
+     *      </tr>
+     *      <tr>
+     *          <td>N</td>
+     *      </tr>
+     *      <tr>
+     *          <td>Echape</td>
+     *      </tr>
+     *  </tbody>
+     * </table>
+     * @function
+     * @async
+     * @returns {boolean}
+     * @see [Class Cli.Key_VALID]{@link module:cli~Cli#Key_VALID} est utilisé.
+     * @see [Class Cli.KEY_INVALID]{@link module:cli~Cli#KEY_INVALID} est utilisé.
+     * @see [Class Cli.EXIT]{@link module:cli~Cli#EXIT} est utilisé.
+     */
+    #getBooleanKey = async function () {
+        let yes = Object.values(this.#Key_VALID).map((value) => value.toString("hex"));
+        let no = Object.values(this.#KEY_INVALID).map((value) => value.toString("hex"));
+        let ctrlC = this.#EXIT.toString("hex");
+        let result;
+
+        // Lancement de l'écouteur d'événement
+            process.stdin.resume();
+            process.stdin.setRawMode(true);
+            process.stdin.on("data", function filtreKeyYesOrNo (data) {
+                if (data.toString("hex") === ctrlC) {
+                    process.stdin.setRawMode(false);
+                    process.stdin.off("data", filtreKeyYesOrNo);
+                    process.stdin.pause();
+
+                    process.exit();
+                }else if (yes.includes(data.toString("hex"))) {
+                    process.stdin.setRawMode(false);
+                    process.stdin.off("data", filtreKeyYesOrNo);
+                    process.stdin.pause();
+
+                    result = true;
+                }else if (no.includes(data.toString("hex"))) {
+                    process.stdin.setRawMode(false);
+                    process.stdin.off("data", filtreKeyYesOrNo);
+                    process.stdin.pause();
+
+                    result = false;
+                }
+            });
+
+        // Attente d'un résultat
+            await new Promise ((resolve, reject) => {
+                setImmediate(function isGetResultYesNo () {
+                    if (result === true || result === false) {
+                        resolve();
+                    }else {
+                        setImmediate(isGetResultYesNo);
+                    }
+                });
+            });
+
+        // Envoie du resultat
             return result;
     }
 }
