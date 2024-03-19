@@ -1,4 +1,8 @@
 {
     "foldSystem": {
+        "createDirPrincipal": {
+            "errorTypePath": "Le chemin du dossier de test principale n'est pas une chaine de caractère mais un \"@typePath@\".",
+            "errorPathFile": "Le chemin du dossier principale de test (\"@path@\") n'est pas un dossier mais un fichier."
+        }
     }
 }
