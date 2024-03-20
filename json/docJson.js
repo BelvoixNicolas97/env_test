@@ -9,6 +9,9 @@
  *                                                               Remplacer "@typePath@" par le type de la variable.
  * @property {string} foldSystem.createDirPrincipal.errorPathFile Contient le texte d'erreur si le dossier est un fichier au lieu d'un dossier.</br>
  *                                                                Remplacer "@path@" par l'url du dossier.
+ * @property {object} foldSystem.createDirTest Contient le texte de [Class FoldSystem.createDirTest()]{@link module:foldSystem~FoldSystem#createDirTest}.
+ * @property {string} foldSystem.createDirTest.errorTypeNameDir Contient le texte d'erreur si le nom du dossier de test n'est pas une chaine de caractère.</br>
+ *                                                              Remplacer "@typeNameTest@" par le nom du test.
  */
 
 /**
