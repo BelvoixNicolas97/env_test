@@ -8,6 +8,7 @@ const PATH_DIR_TEST = "./test/out";
 async function main () {
     Cli.titre("Test de la class FoldSystem");
         initClass();
+        createSubDir();
 }
 
 function initClass () {
@@ -44,6 +45,34 @@ function initClass () {
             Cli.inValid(error);
 
             process.exit();
+        }
+}
+
+function createSubDir () {
+    let foldSystem;
+
+    Cli.subTitre("Création d'un dossier de sous test");
+        foldSystem = new FoldSystem(PATH_DIR_TEST);
+
+    // Création d'un dossier erroner
+        try {
+            foldSystem.createDirTest(56);
+
+            Cli.inValid(`Le dossier a été crée`);
+        } catch (error) {
+            Cli.valid(`Le dossier n'a pas été crée`);
+            Cli.valid(error);
+        }
+
+    // Création d'un dossier
+        try {
+            foldSystem.createDirTest("test");
+            foldSystem.createDirTest("test");
+
+            Cli.valid(`Le dossier a été crée`);
+        } catch (error) {
+            Cli.inValid("Le dossier de test n'a pas put étre crée");
+            Cli.inValid(error);
         }
 }
 

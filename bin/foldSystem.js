@@ -3,7 +3,7 @@
  * @module foldSystem
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2022
- * @version 1.3.0
+ * @version 1.4.0
  */
 
 const Path = require("path");
@@ -29,6 +29,43 @@ class FoldSystem {
     constructor (path) {
         // Création du dossier
             this.#createDirPrincipal(path);
+    }
+
+    /**
+     * La fonction va crée un dossier unique de sous test. Si le chemin indiquer existe déja. Il va incrémenter un nombre a la fin.
+     * @function
+     * @param {string} nameTest Nom du test. 
+     * @returns {string} Chemin absolue du dossier crée.
+     */
+    createDirTest (nameTest) {
+        let nbTentative = 0;
+        let pathFinale = "";
+
+        // Vérification
+            if (typeof nameTest !== "string") {
+                let txt = TXT.createDirTest.errorTypeNameDir.replace("@typeNameTest@", typeof nameTest);
+                let error = new Error(txt);
+
+                error.name = ERROR.paramType;
+
+                throw error;
+            }
+
+        // Transformation
+            pathFinale = Path.join(this.#PATH, nameTest);
+
+        // Détérmination du path
+            while (Fs.existsSync(pathFinale)) {
+                nbTentative++;
+
+                pathFinale = `${Path.join(this.#PATH, nameTest)}${nbTentative}`;
+            }
+
+        // Création du dossier
+            Fs.mkdirSync(pathFinale);
+
+        // Envoie
+            return pathFinale
     }
 
     /**
@@ -67,30 +104,6 @@ class FoldSystem {
 
         // Intégration
             this.#PATH = pathAbsolue;
-    }
-
-    /**
-     * La fonction va crée un dossier unique. Si le chemin indiquer existe déja. Il va incrémenter un nombre a la fin.
-     * @function
-     * @param {string} path Chemin du dossier a crée. 
-     * @returns {string} Chemin absolue du dossier crée.
-     */
-    #createDirUnic = function (path) {
-        let nbTentative = 0;
-        let pathFinale = Path.resolve(path);
-
-        // Détérmination du path
-            while (Fs.existsSync(pathFinale)) {
-                nbTentative++;
-
-                pathFinale = Path.resolve(`${path}${nbTentative}`);
-            }
-
-        // Création du dossier
-            Fs.mkdirSync(pathFinale);
-
-        // Envoie
-            return pathFinale
     }
 }
 
