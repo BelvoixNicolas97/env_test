@@ -3,7 +3,7 @@
  * @module foldSystem
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2022
- * @version 1.5.0
+ * @version 1.6.0
  */
 
 const Path = require("path");
@@ -67,6 +67,44 @@ class FoldSystem {
 
         // Envoie
             return pathFinale
+    }
+
+    /**
+     * La fonction permet de crée et d'initialiser le dossier principale de test.
+     * @function
+     * @param {string} path Chemin du dossier.
+     * @see [Class FoldSystem.PATH]{@link module:foldSystem~FoldSystem#PATH} est utilisé.
+     */
+    #createDirPrincipal = function (path) {
+        let pathAbsolue = "";
+
+        // Vérification
+            if (typeof path !== "string") {
+                let txt = TXT.createDirPrincipal.errorTypePath.replace("@typePath@", typeof path);
+                let error = new Error(txt);
+
+                error.name = ERROR.paramType;
+
+                throw error;
+            }else if (Fs.existsSync(path) && !Fs.statSync(path).isDirectory()) {
+                let txt = TXT.createDirPrincipal.errorPathFile.replace("@path@", path);
+                let error = new Error(txt);
+
+                error.name = ERROR.typePath;
+
+                throw error;
+            }
+
+        // Transformation
+            pathAbsolue = Path.resolve(path);
+
+        // Création du dossier
+            if (!Fs.existsSync(pathAbsolue)) {
+                Fs.mkdirSync(pathAbsolue);
+            }
+
+        // Intégration
+            this.#PATH = pathAbsolue;
     }
 
     /**
@@ -163,24 +201,62 @@ class FoldSystem {
     }
 
     /**
-     * La fonction permet de crée et d'initialiser le dossier principale de test.
+     * Supprime les sous dossier de test
+     * @async
      * @function
-     * @param {string} path Chemin du dossier.
      * @see [Class FoldSystem.PATH]{@link module:foldSystem~FoldSystem#PATH} est utilisé.
+     * @see [Class FoldSystem.rmDir]{@link module:foldSystem~FoldSystem#rmDir} est utilisé.
      */
-    #createDirPrincipal = function (path) {
-        let pathAbsolue = "";
+    async rmSubDir () {
+        let pathMain = this.#PATH;
+        let listAction = [];
+        let listContenuDir;
+
+        // Récupération du dossier
+            listContenuDir = await FS_PROMISE.readdir(pathMain);
+
+        // Suppression
+            for (let name of listContenuDir) {
+                let path = Path.join(pathMain, name);
+
+                if ((await FS_PROMISE.stat(path)).isDirectory()) {
+                    listAction.push(this.#rmDir(path));
+                }else {
+                    listAction.push(FS_PROMISE.unlink(path));
+                }
+            }
+
+        // Attente de suppression
+            await Promise.allSettled(listAction);
+    }
+
+    /**
+     * La fonction supprime un dossier
+     * @async
+     * @function
+     * @param {string} path Chemin du dossier a supprimer.
+     */
+    #rmDir = async function (path) {
+        let listAction = [];
+        let listContenue;
 
         // Vérification
             if (typeof path !== "string") {
-                let txt = TXT.createDirPrincipal.errorTypePath.replace("@typePath@", typeof path);
+                let txt = TXT.rmDir.errorTypePath.replace("@typePath@", typeof path);
                 let error = new Error(txt);
 
                 error.name = ERROR.paramType;
 
                 throw error;
-            }else if (Fs.existsSync(path) && !Fs.statSync(path).isDirectory()) {
-                let txt = TXT.createDirPrincipal.errorPathFile.replace("@path@", path);
+            }else if (!Fs.existsSync(path)) {
+                let txt = TXT.rmDir.errorPathExist.replace("@path@", path);
+                let error = new Error(txt);
+
+                error.name = ERROR.dirNotExist;
+
+                throw error;
+            }else if (!(await FS_PROMISE.stat(path)).isDirectory()) {
+                let txt = TXT.rmDir.errorDir.replace("@path@", path);
                 let error = new Error(txt);
 
                 error.name = ERROR.typePath;
@@ -188,16 +264,25 @@ class FoldSystem {
                 throw error;
             }
 
-        // Transformation
-            pathAbsolue = Path.resolve(path);
+        // Récupération du contenue du dossier
+            listContenue = await FS_PROMISE.readdir(path);
 
-        // Création du dossier
-            if (!Fs.existsSync(pathAbsolue)) {
-                Fs.mkdirSync(pathAbsolue);
+        // Suppression
+            for (let file of listContenue) {
+                let subPath = Path.join(path, file);
+
+                if ((await FS_PROMISE.stat(subPath)).isDirectory()) {
+                    listAction.push(this.#rmDir(subPath));
+                }else {
+                    listAction.push(FS_PROMISE.unlink(subPath));
+                }
             }
 
-        // Intégration
-            this.#PATH = pathAbsolue;
+        // Attente de la fin de suppression
+            await Promise.allSettled(listAction);
+
+        // Suppression du dossier
+            await FS_PROMISE.rmdir(path);
     }
 }
 

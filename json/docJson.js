@@ -19,6 +19,13 @@
  *                                                      Remplacer "@path@" par le chemin du dossier.
  * @property {object} foldSystem.cleanDir.errorDir Contient le texte d'erreur si le dossier a netoyer n'est pas un dossier.</br>
  *                                                      Remplacer "@path@" par le chemin du dossier.
+ * @property {object} foldSystem.rmDir Contient le texte de [Class FoldSystem.rmDir()]{@link module:foldSystem~FoldSystem#rmDir}.
+ * @property {object} foldSystem.rmDir.errorTypePath Contient le texte d'erreur si le nom du dossier a supprimer n'est pas une chaine de caractère.</br>
+ *                                                   Remplacer "@typePath@" par le type.
+ * @property {object} foldSystem.rmDir.errorPathExist Contient le texte d'erreur si le dossier a supprimer n'existe pas.</br>
+ *                                                    Remplacer "@path@" par le chemin du dossier.
+ * @property {object} foldSystem.rmDir.errorDir Contient le texte d'erreur si le dossier a supprimer n'est pas un dossier.</br>
+ *                                              Remplacer "@path@" par le chemin du dossier.
  */
 
 /**
