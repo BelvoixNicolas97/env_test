@@ -1,4 +1,5 @@
 {
     "paramType": "PARAM_TYPE",
-    "typePath": "TYPE_PATH"
+    "typePath": "TYPE_PATH",
+    "dirNotExist": "DIR_NOT_EXIST"
 }
