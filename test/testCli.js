@@ -7,7 +7,13 @@ async function main () {
     CLI.valid("Test de la function de la fonction valid");
     CLI.miss("Test de la fonction miss");
     CLI.inValid("Test de la fonction inValid");
+
     await CLI.yesOrNo("Test de la fonction yesOrNo");
+    
+    CLI.txt("Text à supprimer");
+    CLI.txt("Text à supprimer");
+    CLI.txt("Text à supprimer");
+    CLI.cleanUpLine(3);
 }
 
 main();

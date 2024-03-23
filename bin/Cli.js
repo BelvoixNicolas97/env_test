@@ -4,7 +4,7 @@
  * @module cli
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2022
- * @version 1.0.2
+ * @version 1.1.2
  */
 
     ///    CLASS    ///
@@ -129,6 +129,18 @@ class Cli {
      */
     txt (txt) {
         console.log(`    ${txt}`);
+    }
+
+    /**
+     * La fonction permet de supprimer une ou plusieurs ligne du terminal.
+     * @function
+     * @param {number} [xLine=1] Le nombre de lignes à supprimer. 
+     */
+    cleanUpLine (xLine = 1) {
+        // Suppression de la ligne
+            for (let nb = 0; nb < xLine; nb++) {
+                process.stdout.write("\r\x1B[A\x1B[2K");
+            }
     }
 
     /**
