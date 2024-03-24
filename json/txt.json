@@ -7,16 +7,6 @@
         "createDirTest": {
             "errorTypeNameDir": "Le nom du sous dossier de test n'est pas une chaine de caractére mais un \"@typeNameTest@\"."
         },
-        "cleanDir": {
-            "errorTypePath": "Le chemin du dossier a netoyer n'est pas une chaine de caractére mais un \"@typePath@\".",
-            "errorNotExist": "Le dossier \"@path@\" n'existe pas.",
-            "errorDir": "Le chemin \"@path@\" n'est pas un dossier mais un fichier."
-        },
-        "rmDir": {
-            "errorTypePath": "Le chemin du dossier a supprimer n'est pas une chaine de caractére mais un \"@typePath@\"",
-            "errorPathExist": "Le chemin \"@path@\" n'existe pas",
-            "errorDir": "Le chemin \"@path@\" n'est pas un dossier"
-        },
         "getTestUrl": {
             "notInList": "Le dossier de test \"@nameTest@\" n'existe pas."
         }
