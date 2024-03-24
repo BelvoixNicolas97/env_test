@@ -3,12 +3,11 @@
  * @module foldSystem
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2022
- * @version 1.8.2
+ * @version 1.9.2
  */
 
 const Path = require("path");
 const Fs = require("fs");
-const FS_PROMISE = require("fs/promises");
 
 const TXT = require('./../json/txt.json').foldSystem;
 const ERROR = require("./../json/error.json");
@@ -32,6 +31,9 @@ class FoldSystem {
     constructor (path) {
         // Création du dossier
             this.#createDirPrincipal(path);
+
+        // Suppression des test précédent
+            this.#clean();
 
         // Création de la liste de test
             this.updateListTest();
@@ -73,6 +75,21 @@ class FoldSystem {
 
         // Intégration
             this.#PATH = pathAbsolue;
+    }
+
+    #clean = function () {
+        let path = this.#PATH;
+        let inDir = [];
+
+        // Récupération de la liste du contenue du dossier
+            inDir = Fs.readdirSync(path);
+
+        // Suppression
+            for (let dir of inDir) {
+                let pathDir = Path.join(path, dir);
+
+                Fs.rmSync(pathDir, {recursive: true, force: true});
+            }
     }
 
 //   LIST TEST
@@ -120,6 +137,7 @@ class FoldSystem {
             return path;
     }
 
+//   DIR
     /**
      * La fonction va crée un dossier unique de sous test. Si le chemin indiquer existe déja. Il va incrémenter un nombre a la fin.
      * @function
