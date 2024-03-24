@@ -3,7 +3,7 @@
  * @module foldSystem
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2022
- * @version 1.6.0
+ * @version 1.8.2
  */
 
 const Path = require("path");
@@ -22,6 +22,8 @@ class FoldSystem {
      * @type {string}
      */
     #PATH;
+
+    #LIST_TEST = {};
     
     /**
      * @constructor
@@ -30,43 +32,9 @@ class FoldSystem {
     constructor (path) {
         // Création du dossier
             this.#createDirPrincipal(path);
-    }
 
-    /**
-     * La fonction va crée un dossier unique de sous test. Si le chemin indiquer existe déja. Il va incrémenter un nombre a la fin.
-     * @function
-     * @param {string} nameTest Nom du test. 
-     * @returns {string} Chemin absolue du dossier crée.
-     */
-    createDirTest (nameTest) {
-        let nbTentative = 0;
-        let pathFinale = "";
-
-        // Vérification
-            if (typeof nameTest !== "string") {
-                let txt = TXT.createDirTest.errorTypeNameDir.replace("@typeNameTest@", typeof nameTest);
-                let error = new Error(txt);
-
-                error.name = ERROR.paramType;
-
-                throw error;
-            }
-
-        // Transformation
-            pathFinale = Path.join(this.#PATH, nameTest);
-
-        // Détérmination du path
-            while (Fs.existsSync(pathFinale)) {
-                nbTentative++;
-
-                pathFinale = `${Path.join(this.#PATH, nameTest)}${nbTentative}`;
-            }
-
-        // Création du dossier
-            Fs.mkdirSync(pathFinale);
-
-        // Envoie
-            return pathFinale
+        // Création de la liste de test
+            this.updateListTest();
     }
 
     /**
@@ -107,182 +75,89 @@ class FoldSystem {
             this.#PATH = pathAbsolue;
     }
 
-    /**
-     * La fonction netoie le dossier de test.
-     * @async
-     * @function
-     * @returns {number} Le nombre de dossier supprimer.
-     * @see [Class FoldSystem.PATH]{@link module:foldSystem~FoldSystem#PATH} est utilisé.
-     * @see [Class FoldSystem.cleanDir]{@link module:foldSystem~FoldSystem#cleanDir} est utilisé.
-     */
-    async clean () {
-        let pathMain = this.#PATH;
-        let nbRm = 0;
-        let listPromise = [];
-        let listDir = [];
-        let result;
+//   LIST TEST
+    updateListTest () {
+        let path = this.#PATH;
+        let listInDir = Fs.readdirSync(path);
+        let result = {};
 
-        // Récupération de la liste des dossier
-            listDir = await FS_PROMISE.readdir(pathMain);
+        // Filtrage
+            for (let dir of listInDir) {
+                let pathDir = Path.join(path, dir);
+                let isDir = Fs.statSync(pathDir).isDirectory();
 
-        // Lancement du netoyage
-            for (let nameDir of listDir) {
-                let path = Path.join(pathMain, nameDir);
-
-                listPromise.push(this.#cleanDir(path));
-            }
-
-        // Attente de la fin du netoyage
-            result = await Promise.allSettled(listPromise);
-
-        // Intérprétation du résultat
-            for await (let resultPromise of result) {
-                if (resultPromise.status == "fulfilled" && resultPromise.value) {
-                    nbRm++;
+                if (isDir) {
+                    result[dir] = pathDir;
                 }
             }
 
-        // Suppresion du dossier
-            if ((await FS_PROMISE.readdir(pathMain)).length <= 0) {
-                await FS_PROMISE.rmdir(pathMain);
+        // Intégration
+            this.#LIST_TEST = result;
+    }
+
+    getListTest () {
+        return Object.keys(this.#LIST_TEST);
+    }
+
+    getTestUrl (testName) {
+        let listTest = this.#LIST_TEST;
+        let path = "";
+
+        // Vérification
+            if (!Object.keys(listTest).includes(testName)) {
+                let txt = TXT.getTestUrl.notInList.replace("@nameTest@", testName);
+                let error = new Error(txt);
+
+                error.name = ERROR.notInList;
+
+                throw error;
             }
 
+        // Récupération de l'url
+            path = listTest[testName];
+
         // Envoie
-            return nbRm;
+            return listTest;
     }
 
     /**
-     * La fonction supprime un dossier de test si il est vide.
-     * @async
+     * La fonction va crée un dossier unique de sous test. Si le chemin indiquer existe déja. Il va incrémenter un nombre a la fin.
      * @function
-     * @param {string} path Chemin du dossier a netoyer.
-     * @returns {boolean} Renvoie true si le dossier est supprimer.
+     * @param {string} nameTest Nom du test. 
+     * @returns {string} Chemin absolue du dossier crée.
      */
-    #cleanDir = async function (path) {
-        let result = false;
-        let nbSubDirFile = 0;
+    createDirTest (nameTest) {
+        let nbTentative = 0;
+        let pathFinale = "";
 
         // Vérification
-            if (typeof path !== "string") {
-                let txt = TXT.cleanDir.errorTypePath.replace("typePath", typeof path);
+            if (typeof nameTest !== "string") {
+                let txt = TXT.createDirTest.errorTypeNameDir.replace("@typeNameTest@", typeof nameTest);
                 let error = new Error(txt);
 
                 error.name = ERROR.paramType;
 
                 throw error;
-            }else if (!Fs.existsSync(path)) {
-                let txt = TXT.cleanDir.errorNotExist.replace("@path@", path);
-                let error = new Error(txt);
-
-                error.name = ERROR.dirNotExist;
-
-                throw error;
-            }else if (!(await FS_PROMISE.stat(path)).isDirectory()) {
-                let txt = TXT.cleanDir.errorDir.replace("@path@", path);
-                let error = new Error(txt);
-
-                error.name = ERROR.typePath;
-
-                throw error;
             }
 
-        // Récupération du nombre de fichier
-            nbSubDirFile = (await FS_PROMISE.readdir(path)).length;
+        // Transformation
+            pathFinale = Path.join(this.#PATH, nameTest);
 
-        // Suppresion
-            if (nbSubDirFile <= 0) {
-                await FS_PROMISE.rmdir(path);
+        // Détérmination du path
+            while (Fs.existsSync(pathFinale)) {
+                nbTentative++;
 
-                result = true;
+                pathFinale = `${Path.join(this.#PATH, nameTest)}${nbTentative}`;
             }
+
+        // Création du dossier
+            Fs.mkdirSync(pathFinale);
+
+        // Mise a jour de la liste de test
+            this.updateListTest();
 
         // Envoie
-            return result;
-    }
-
-    /**
-     * Supprime les sous dossier de test
-     * @async
-     * @function
-     * @see [Class FoldSystem.PATH]{@link module:foldSystem~FoldSystem#PATH} est utilisé.
-     * @see [Class FoldSystem.rmDir]{@link module:foldSystem~FoldSystem#rmDir} est utilisé.
-     */
-    async rmSubDir () {
-        let pathMain = this.#PATH;
-        let listAction = [];
-        let listContenuDir;
-
-        // Récupération du dossier
-            listContenuDir = await FS_PROMISE.readdir(pathMain);
-
-        // Suppression
-            for (let name of listContenuDir) {
-                let path = Path.join(pathMain, name);
-
-                if ((await FS_PROMISE.stat(path)).isDirectory()) {
-                    listAction.push(this.#rmDir(path));
-                }else {
-                    listAction.push(FS_PROMISE.unlink(path));
-                }
-            }
-
-        // Attente de suppression
-            await Promise.allSettled(listAction);
-    }
-
-    /**
-     * La fonction supprime un dossier
-     * @async
-     * @function
-     * @param {string} path Chemin du dossier a supprimer.
-     */
-    #rmDir = async function (path) {
-        let listAction = [];
-        let listContenue;
-
-        // Vérification
-            if (typeof path !== "string") {
-                let txt = TXT.rmDir.errorTypePath.replace("@typePath@", typeof path);
-                let error = new Error(txt);
-
-                error.name = ERROR.paramType;
-
-                throw error;
-            }else if (!Fs.existsSync(path)) {
-                let txt = TXT.rmDir.errorPathExist.replace("@path@", path);
-                let error = new Error(txt);
-
-                error.name = ERROR.dirNotExist;
-
-                throw error;
-            }else if (!(await FS_PROMISE.stat(path)).isDirectory()) {
-                let txt = TXT.rmDir.errorDir.replace("@path@", path);
-                let error = new Error(txt);
-
-                error.name = ERROR.typePath;
-
-                throw error;
-            }
-
-        // Récupération du contenue du dossier
-            listContenue = await FS_PROMISE.readdir(path);
-
-        // Suppression
-            for (let file of listContenue) {
-                let subPath = Path.join(path, file);
-
-                if ((await FS_PROMISE.stat(subPath)).isDirectory()) {
-                    listAction.push(this.#rmDir(subPath));
-                }else {
-                    listAction.push(FS_PROMISE.unlink(subPath));
-                }
-            }
-
-        // Attente de la fin de suppression
-            await Promise.allSettled(listAction);
-
-        // Suppression du dossier
-            await FS_PROMISE.rmdir(path);
+            return Path.basename(pathFinale);
     }
 }
 
