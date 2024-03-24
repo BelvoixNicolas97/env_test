@@ -117,7 +117,7 @@ class FoldSystem {
             path = listTest[testName];
 
         // Envoie
-            return listTest;
+            return path;
     }
 
     /**

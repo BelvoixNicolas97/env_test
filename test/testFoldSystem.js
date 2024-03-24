@@ -63,7 +63,6 @@ function initClass () {
 
 function createSubDir () {
     let foldSystem;
-    let pathAbsolue;
 
     Cli.subTitre("Création d'un dossier de sous test");
         Cli.txt(`Initialisation de la class`);
@@ -96,8 +95,11 @@ function createSubDir () {
         Cli.txt(`Création d'un sous dossier`);
             try {
                 let path = PATH.resolve(PATH.join(PATH_DIR_TEST, "test"));
+                let testName;
+                let pathAbsolue;
                 
-                pathAbsolue = foldSystem.createDirTest("test");
+                testName = foldSystem.createDirTest("test");
+                pathAbsolue = foldSystem.getTestUrl(testName);
 
                 Cli.cleanUpLine();
                 if (!Fs.existsSync(pathAbsolue)) {
@@ -123,8 +125,11 @@ function createSubDir () {
         Cli.txt(`Création d'un sous dossier existant`);
             try {
                 let path = PATH.resolve(PATH.join(PATH_DIR_TEST, "test1"));
+                let testName;
+                let pathAbsolue;
                 
-                pathAbsolue = foldSystem.createDirTest("test");
+                testName = foldSystem.createDirTest("test");
+                pathAbsolue = foldSystem.getTestUrl(testName);
 
                 Cli.cleanUpLine();
                 if (!Fs.existsSync(pathAbsolue)) {
