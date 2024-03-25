@@ -4,36 +4,25 @@
  * @name TXT
  * @type {object}
  * @property {object} foldSystem Contient le texte de la [Class FoldSystem]{@link module:foldSystem~FoldSystem}.
- * @property {object} foldSystem.createDirPrincipal Contient le texte de [Class FoldSystem.createDirPrincipal()]{@link module:foldSystem~FoldSystem#createDirPrincipal}.
- * @property {string} foldSystem.createDirPrincipal.errorTypePath Contient le texte d'erreur sur le type de paramétre.</br>
- *                                                               Remplacer "@typePath@" par le type de la variable.
- * @property {string} foldSystem.createDirPrincipal.errorPathFile Contient le texte d'erreur si le dossier est un fichier au lieu d'un dossier.</br>
+ * @property {object} foldSystem.createDirPrincipal Contient le texte de la fonction [Class FoldSystem.createDirPrincipal()]{@link module:foldSystem~FoldSystem#createDirPrincipal}.
+ * @property {string} foldSystem.createDirPrincipal.errorTypePath Contient le texte d'erreur si le type du paramètre soumis est erroné.</br>
+ *                                                               Remplacer "@typePath@" par le type de la variable soumis.
+ * @property {string} foldSystem.createDirPrincipal.errorPathFile Contient le texte d'erreur si l'URL soumise n'existe pas ou si l'URL est un fichier.</br>
  *                                                                Remplacer "@path@" par l'url du dossier.
- * @property {object} foldSystem.createDirTest Contient le texte de [Class FoldSystem.createDirTest()]{@link module:foldSystem~FoldSystem#createDirTest}.
- * @property {string} foldSystem.createDirTest.errorTypeNameDir Contient le texte d'erreur si le nom du dossier de test n'est pas une chaine de caractère.</br>
+ * @property {object} foldSystem.createDirTest Contient le texte de la fonction [Class FoldSystem.createDirTest()]{@link module:foldSystem~FoldSystem#createDirTest}.
+ * @property {string} foldSystem.createDirTest.errorTypeNameDir Contient le texte d'erreur si le nom du dossier de test n'est pas une chaine de caractères.</br>
  *                                                              Remplacer "@typeNameTest@" par le nom du test.
- * @property {object} foldSystem.cleanDir Contient le texte de [Class FoldSystem.cleanDir()]{@link module:foldSystem~FoldSystem#cleanDir}.
- * @property {object} foldSystem.cleanDir.errorTypePath Contient le texte d'erreur si le nom du dossier a netoyer de test n'est pas une chaine de caractère.</br>
- *                                                      Remplacer "@typePath@" par le type.
- * @property {object} foldSystem.cleanDir.errorNotExist Contient le texte d'erreur si le dossier a netoyer n'existe pas.</br>
- *                                                      Remplacer "@path@" par le chemin du dossier.
- * @property {object} foldSystem.cleanDir.errorDir Contient le texte d'erreur si le dossier a netoyer n'est pas un dossier.</br>
- *                                                      Remplacer "@path@" par le chemin du dossier.
- * @property {object} foldSystem.rmDir Contient le texte de [Class FoldSystem.rmDir()]{@link module:foldSystem~FoldSystem#rmDir}.
- * @property {object} foldSystem.rmDir.errorTypePath Contient le texte d'erreur si le nom du dossier a supprimer n'est pas une chaine de caractère.</br>
- *                                                   Remplacer "@typePath@" par le type.
- * @property {object} foldSystem.rmDir.errorPathExist Contient le texte d'erreur si le dossier a supprimer n'existe pas.</br>
- *                                                    Remplacer "@path@" par le chemin du dossier.
- * @property {object} foldSystem.rmDir.errorDir Contient le texte d'erreur si le dossier a supprimer n'est pas un dossier.</br>
- *                                              Remplacer "@path@" par le chemin du dossier.
+ * @property {object} foldSystem.getTestUrl Contient le texte de la fonction [Class FoldSystem.getTestUrl()]{@link module:foldSystem~FoldSystem#getTestUrl}.
+ * @property {string} foldSystem.getTestUrl.notInList Contient le texte d'erreur si le nom du test [Class FoldSystem.LIST_TEST]{@link module:foldSystem~FoldSystem#LIST_TEST} ne fait pas partie de la liste de test connue.
+ *                                                    Remplacer "@nameTest@" par le nom du test.
  */
 
 /**
  * @global
  * @name ERROR
  * @type {object}
- * @property {string} paramType="PARAM_TYPE" Le code erreur est utiliser si le type de paramètre est erroenr.
- * @property {string} typePath="TYPE_PATH" Le code erreur est utiliser si le type de fichier est erroner.</br>
- *                                         Il sera utiliser par exemple si il y a un fichier au lieu d'un dossier.
- * @property {string} dirNotExist="DIR_NOT_EXIST" Le code erreur est utiliser si un dossier n'existe pas.
+ * @property {string} paramType="PARAM_TYPE" Le code erreur est utilisé si le type de paramètre est erroné.
+ * @property {string} typePath="TYPE_PATH" Le code erreur est utilisé si le type de fichier est erroné.</br>
+ *                                         Il sera utilisé par exemple s'il y a un fichier au lieu d'un dossier.
+ * @property {string} notInList="NOT_IN_LIST_TEST" Le code d'erreur est utilisé si le test ne fait pas partie de la liste [Class FoldSystem.LIST_TEST]{@link module:foldSystem~FoldSystem#LIST_TEST}.
  */
