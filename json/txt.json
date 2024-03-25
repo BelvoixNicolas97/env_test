@@ -1,14 +1,14 @@
 {
     "foldSystem": {
         "createDirPrincipal": {
-            "errorTypePath": "Le chemin du dossier de test principale n'est pas une chaine de caractère mais un \"@typePath@\".",
-            "errorPathFile": "Le chemin du dossier principale de test (\"@path@\") n'est pas un dossier mais un fichier."
+            "errorTypePath": "L'URL du dossier de test principal n'est pas une chaine de caractère mais un \"@typePath@\".",
+            "errorPathFile": "L'URL du dossier principal de test (\"@path@\") n'est pas un dossier mais un fichier."
         },
         "createDirTest": {
-            "errorTypeNameDir": "Le nom du sous dossier de test n'est pas une chaine de caractére mais un \"@typeNameTest@\"."
+            "errorTypeNameDir": "Le nom du sous-dossier de test n'est pas une chaine de caractère mais un \"@typeNameTest@\"."
         },
         "getTestUrl": {
-            "notInList": "Le dossier de test \"@nameTest@\" n'existe pas."
+            "notInList": "Le nom du test \"@nameTest@\" n'existe pas."
         }
     }
 }
