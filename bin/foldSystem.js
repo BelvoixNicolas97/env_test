@@ -2,8 +2,8 @@
  * Le module permet d'interagir avec le system de dossier de l'environnement de test.
  * @module foldSystem
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
- * @copyright Nicolas Belvoix 2022
- * @version 1.9.3
+ * @copyright Nicolas Belvoix 2024
+ * @version 1.9.4
  */
 
 const Path = require("path");
