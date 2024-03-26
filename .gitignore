@@ -2,3 +2,4 @@
 /package-lock.json
 /doc
 *.temp.*
+/test/out
