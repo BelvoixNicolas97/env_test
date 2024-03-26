@@ -10,9 +10,10 @@
     "docPublic": "npx jsdoc -c ./conf/docPublic.json",
     "docPrivate": "npx jsdoc -c ./conf/docPrivate.json",
 
-    "test": "npm run testClassCli && npm run testClassFoldSystem",
+    "test": "npm run testClassCli && npm run testClassFoldSystem && npm run testClassFileLog",
     "testClassCli": "node test/testCli.js",
-    "testClassFoldSystem": "node test/testFoldSystem.js"
+    "testClassFoldSystem": "node test/testFoldSystem.js",
+    "testClassFileLog": "node test/testFileLog.js"
   },
   "author": "Nicolas Belvoix",
   "license": "ISC",
