@@ -3,8 +3,8 @@
  * ![Exemple](img/utilisation.png)
  * @module cli
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
- * @copyright Nicolas Belvoix 2022
- * @version 1.1.2
+ * @copyright Nicolas Belvoix 2024
+ * @version 1.1.3
  */
 
     ///    CLASS    ///
