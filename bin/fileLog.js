@@ -3,7 +3,7 @@
  * @module fileLog
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2024
- * @version 1.2.1
+ * @version 1.5.1
  */
 
 const FS = require("fs");
@@ -47,12 +47,6 @@ class FileLog {
      * @default 0n
      */
     #BYTE_WRITE = BigInt(0);
-    /**
-     * Contient le nombre d'octers stocker dans le fichier.
-     * @type {bigint}
-     * @default 0n
-     */
-    #BYTE = BigInt(0);
 
     /**
      * @constructor
@@ -61,7 +55,6 @@ class FileLog {
     constructor (path) {
             let pathAbsolue;
             let fn;
-            let byte;
 
         // Vérification
             if (typeof path !== "string") {
@@ -86,19 +79,59 @@ class FileLog {
         // Ouverture du fichier
             fn = FS.openSync(pathAbsolue, "w");
 
-        // Récupération ds donnée
-            byte = FS.fstatSync(fn, {bigint: true}).size;
-
         // Initialisation des donnée
             this.#PATH = pathAbsolue;
             this.#FILEHANDLER = fn;
             this.#CLOSE = false;
-            this.#BYTE = byte;
 
         // Mise en place des triggers
             process.on("exit", () => {
                 this.close();
             });
+    }
+
+//   GET DATA
+    /**
+     * LA fonction permet de récupérer l'url absolue du fichier
+     * @returns {string}
+     */
+    getPath () {
+        return this.#PATH;
+    }
+
+    /**
+     * La fonction permet de récupérer le nombre d'octer du fichier
+     * @returns {bigint}
+     */
+    getByte () {
+        let path = this.#PATH;
+        let fn = this.#FILEHANDLER;
+        let isClose = this.#CLOSE;
+        let byte = BigInt(0);
+
+        // Vérification
+            if (isClose) {
+                let txt = TXT.getByte.errorClose.replace("@path@", path).replace("@fn@", fn);
+                let error = new Error(txt);
+
+                error.name = ERROR.fileClose;
+
+                throw error;
+            }
+
+        // Récupération des donnée
+            byte = FS.fstatSync(fn, {bigint: true}).size;
+
+        // Envoie
+            return byte;
+    }
+
+    /**
+     * La fonction permet de récupérer le nombre d'octer écrit dans le fichier via cette instance
+     * @returns {bigint}
+     */
+    getByteWrite () {
+        return this.#BYTE_WRITE;
     }
 
     /**

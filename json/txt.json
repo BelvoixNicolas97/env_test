@@ -15,6 +15,9 @@
         "constructor": {
             "errorTypePath": "L'url du fichier n'est pas une chaine de caractére mais un \"@typeParh@\"",
             "errorTypeFile": "L'url du fichier \"@path@\" n'est pas un fichier mais un dossier."
+        },
+        "getByte": {
+            "errorClose": "Le le descripteur de fichier \"@path@\"(@fn@) est fermer."
         }
     }
 }
