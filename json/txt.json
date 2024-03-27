@@ -10,5 +10,11 @@
         "getTestUrl": {
             "notInList": "Le nom du test \"@nameTest@\" n'existe pas."
         }
+    },
+    "fileLog": {
+        "constructor": {
+            "errorTypePath": "L'url du fichier n'est pas une chaine de caractére mais un \"@typeParh@\"",
+            "errorTypeFile": "L'url du fichier \"@path@\" n'est pas un fichier mais un dossier."
+        }
     }
 }
