@@ -18,6 +18,10 @@
         },
         "getByte": {
             "errorClose": "Le le descripteur de fichier \"@path@\"(@fn@) est fermer."
+        },
+        "write": {
+            "errorTypeParam": "Les donnée a écrire dans le fichier \"@path@\" n'est pas une chaine de caractère mais un \"@typeTxt@\"",
+            "errorClose": "Le le descripteur de fichier \"@path@\"(@fn@) est fermer."
         }
     }
 }

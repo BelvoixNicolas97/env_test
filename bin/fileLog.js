@@ -3,7 +3,7 @@
  * @module fileLog
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2024
- * @version 1.5.1
+ * @version 1.6.1
  */
 
 const FS = require("fs");
@@ -134,6 +134,49 @@ class FileLog {
         return this.#BYTE_WRITE;
     }
 
+//   WRITE
+    /**
+     * La fonction écrit dans le fichier
+     * @param {string} txt 
+     * @returns {bigint} Le nombre d'octer écrit dans le fichier
+     */
+    write (txt) {
+        let fn = this.#FILEHANDLER;
+        let isClose = this.#CLOSE;
+        let byte = this.#BYTE_WRITE;
+        let buffer;
+
+        // Vérification
+            if (typeof txt !== "string") {
+                let txtError = TXT.write.errorTypeParam.replace("@path@", this.#PATH).replace("@typeTxt@", typeof txt);
+                let error = new Error(txtError);
+
+                error.name = ERROR.paramType;
+
+                throw error;
+            }else if (isClose) {
+                let txtError = TXT.write.errorClose.replace("@path@", this.#PATH).replace("@fn@", fn);
+                let error = new Error(txtError);
+
+                error.name = ERROR.fileClose;
+
+                throw error;
+            }
+
+        // Transformation
+            buffer = Buffer.from(txt);
+
+        // Ecriture
+            FS.writeSync(fn, buffer);
+
+        // Update du nombre de byte ecrit
+            this.#BYTE_WRITE = byte + BigInt(buffer.byteLength);
+        
+        // Envoie
+            return BigInt(buffer.byteLength);
+    }
+
+//   CLOSE
     /**
      * La function ferme le fichier.
      * @function
