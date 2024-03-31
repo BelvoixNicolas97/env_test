@@ -15,7 +15,7 @@ async function main () {
                 FS.mkdirSync(PATH_DIR_TEST, {recursive: true});
             } catch (error) {
                 Cli.cleanUpLine();
-                Cli.inValid(`Le dossier "${PATH_DIR_TEST}" n'a pas put étre crée.`);
+                Cli.inValid(`Le dossier "${PATH_DIR_TEST}" n'a pas pu être créé.`);
                 Cli.inValid(error);
 
                 process.exit();
@@ -23,7 +23,7 @@ async function main () {
             Cli.cleanUpLine();
             Cli.valid(`Le dossier de test "${PATH_DIR_TEST}" a été crée.`);
         }else if (!FS.statSync(PATH_DIR_TEST).isDirectory()) {
-            Cli.inValid(`Le dossier "${PATH_DIR_TEST}" existe déja et c'est un fichier.`);
+            Cli.inValid(`Le dossier "${PATH_DIR_TEST}" existe déjà et c'est un fichier.`);
 
             process.exit();
         }
@@ -41,61 +41,61 @@ async function main () {
 
 function testInit () {
     Cli.subTitre(`Test d'initialisation de la class`);
-        Cli.txt(`Initialisation sur un url erroner`);
+        Cli.txt(`Initialisation sur une url erroné.`);
             try {
                 let file = new FileLog(5);
 
                 Cli.cleanUpLine();
-                Cli.inValid(`La class a été initialiser sur un url erroner`);
-                Cli.inValid(`Path: "${file.getPath()} | Size: ${formatByte(file.getByte())}`);
+                Cli.inValid(`La class a été initialiser sur une url erroné.`);
+                Cli.inValid(`Path: "${file.getPath()} | Size: ${formatByte(file.getByte())}.`);
                 Cli.txt("");
             } catch (error) {
                 Cli.cleanUpLine();
-                Cli.valid(`La class n'a pas été initialiser sur une url erroner`);
+                Cli.valid(`La class n'a pas été initialiser sur une URL erroné.`);
                 Cli.valid(error);
                 Cli.txt("");
             }
 
-        Cli.txt(`Initialisation de la class via le dossier "${PATH_DIR_TEST}"`);
+        Cli.txt(`Initialisation de la class via le dossier "${PATH_DIR_TEST}".`);
             try {
                 let file = new FileLog(PATH_DIR_TEST);
 
                 Cli.cleanUpLine();
-                Cli.inValid(`La class a été initialiser via le dossier "${PATH_DIR_TEST}"`);
-                Cli.inValid(`Path: "${file.getPath()} | Size: ${formatByte(file.getByte())}`);
+                Cli.inValid(`La class a été initialiser via le dossier "${PATH_DIR_TEST}".`);
+                Cli.inValid(`Path: "${file.getPath()} | Size: ${formatByte(file.getByte())}.`);
                 Cli.txt("");
             } catch (error) {
                 Cli.cleanUpLine();
-                Cli.valid(`La class n'a pas été initialiser via le dossier "${PATH_DIR_TEST}"`);
+                Cli.valid(`La class n'a pas été initialiser via le dossier "${PATH_DIR_TEST}".`);
                 Cli.valid(error);
                 Cli.txt("");
             }
         
-        Cli.txt(`Initialisation de la class via le fichier "${PATH_DIR_TEST}/test.log"`);
+        Cli.txt(`Initialisation de la class via le fichier "${PATH_DIR_TEST}/test.log".`);
             try {
                 let file = new FileLog(PATH_DIR_TEST + "/test.log");
 
                 Cli.cleanUpLine();
-                Cli.valid(`La class a été initialiser vias un fichier`);
-                Cli.valid(`Path: "${file.getPath()} | Size: ${formatByte(file.getByte())}`);
+                Cli.valid(`La class a été initialiser via un fichier.`);
+                Cli.valid(`Path: "${file.getPath()} | Size: ${formatByte(file.getByte())}.`);
                 Cli.txt("");
             } catch (error) {
                 Cli.cleanUpLine();
-                Cli.inValid(`La class n'a pas été initialiser via le fichier "${PATH_DIR_TEST}/test.log"`);
+                Cli.inValid(`La class n'a pas été initialiser via le fichier "${PATH_DIR_TEST}/test.log".`);
                 Cli.inValid(error);
                 Cli.txt("");
             }
 
-        Cli.txt(`Initialisation de la class via un fichier déja initialiser`);
+        Cli.txt(`Initialisation de la class via un fichier déjà initialiser.`);
             try {
                 let file = new FileLog(PATH_DIR_TEST + "/test.log");
 
                 Cli.cleanUpLine();
-                Cli.valid(`La class a été initialiser via un fichier déja initialiser`);
-                Cli.valid(`Path: "${file.getPath()} | Size: ${formatByte(file.getByte())}`);
+                Cli.valid(`La class a été initialiser via un fichier déjà initialiser.`);
+                Cli.valid(`Path: "${file.getPath()} | Size: ${formatByte(file.getByte())}.`);
             } catch (error) {
                 Cli.cleanUpLine();
-                Cli.inValid(`La class n'a pas été initialiser via un fichier déja initialiser`);
+                Cli.inValid(`La class n'a pas été initialiser via un fichier déjà initialiser.`);
                 Cli.inValid(error);
             }
 }
@@ -106,23 +106,23 @@ function testWrite (x=1, nbCaract=10000) {
     let debut;
     let fin;
 
-    Cli.subTitre(`Test de ${x} écriture`);
-        Cli.txt(`Initialisation de la class`);
+    Cli.subTitre(`Test de ${x} écriture dans le fichier log`);
+        Cli.txt(`Initialisation de la class.`);
         try {
             file = new FileLog(PATH_DIR_TEST + "/testWrite.log");
 
             Cli.cleanUpLine();
-            Cli.valid(`La class a été initialiser sur "${PATH_DIR_TEST + "/testWrite.log"}"`);
+            Cli.valid(`La class a été initialiser sur "${PATH_DIR_TEST + "/testWrite.log"}".`);
             Cli.txt("");
         } catch (error) {
             Cli.cleanUpLine();
-            Cli.inValid(`La class n'a pas été initialiser`);
+            Cli.inValid(`La class n'a pas été initialiser.`);
             Cli.inValid(error);
 
             process.exit();
         }
 
-        Cli.txt(`Ecriture ${x} fois dans le fichier sur avec des partie de ${nbCaract} caractère\r\n`);
+        Cli.txt(`Ecriture ${x} fois dans le fichier de log avec des parties de ${nbCaract} caractère.\r\n`);
             try {
                 debut = Date.now();
 
@@ -134,12 +134,12 @@ function testWrite (x=1, nbCaract=10000) {
                     nbWrite++;
 
                     Cli.cleanUpLine();
-                    Cli.txt(`${nbWrite}/${x} ${formatByte(nbWriteFile)} écrit ${formatTime(Date.now() - debut)}`)
+                    Cli.txt(`${nbWrite}/${x} ${formatByte(nbWriteFile)} écrit`)
                 }
 
                 fin = Date.now();
             } catch (error) {
-                Cli.inValid(`Le fichier a c'éser d'écrire a la ${nbWrite}/${x} fois`);
+                Cli.inValid(`Le fichier a cessé d'écrire à la ${nbWrite}/${x} fois.`);
                 Cli.inValid(error);
 
                 process.exit();

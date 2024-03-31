@@ -13,15 +13,15 @@
     },
     "fileLog": {
         "constructor": {
-            "errorTypePath": "L'url du fichier n'est pas une chaine de caractére mais un \"@typeParh@\"",
-            "errorTypeFile": "L'url du fichier \"@path@\" n'est pas un fichier mais un dossier."
+            "errorTypePath": "L'URL du fichier de log n'est pas une chaine de caractère mais un \"@typeParh@\".",
+            "errorTypeFile": "L'URL du fichier de log \"@path@\" n'est pas un fichier mais un dossier."
         },
         "getByte": {
-            "errorClose": "Le le descripteur de fichier \"@path@\"(@fn@) est fermer."
+            "errorClose": "Le descripteur de fichier \"@path@\"(@fn@) a été fermer."
         },
         "write": {
-            "errorTypeParam": "Les donnée a écrire dans le fichier \"@path@\" n'est pas une chaine de caractère mais un \"@typeTxt@\"",
-            "errorClose": "Le le descripteur de fichier \"@path@\"(@fn@) est fermer."
+            "errorTypeParam": "Les données a écrire dans le fichier de log \"@path@\" n'estn'est pas une chaine de caractère mais un \"@typeTxt@\"",
+            "errorClose": "Le descripteur de fichier de log \"@path@\"(@fn@) a été fermer."
         }
     }
 }
