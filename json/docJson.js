@@ -15,6 +15,20 @@
  * @property {object} foldSystem.getTestUrl Contient le texte de la fonction [Class FoldSystem.getTestUrl()]{@link module:foldSystem~FoldSystem#getTestUrl}.
  * @property {string} foldSystem.getTestUrl.notInList Contient le texte d'erreur si le nom du test [Class FoldSystem.LIST_TEST]{@link module:foldSystem~FoldSystem#LIST_TEST} ne fait pas partie de la liste de test connue.
  *                                                    Remplacer "@nameTest@" par le nom du test.
+ * @property {object} fileLog Contient le texte de la [Class FileLog]{@link module:fileLog~FileLog}.
+ * @property {object} fileLog.constructor Contient le texte de la fonction [Class FileLog.constructor()]{@link module:fileLog~FileLog}.
+ * @property {string} fileLog.constructor.errorTypePath Contient le texte d'erreur si l'URL du fichier log n'est pas une chaine de caractères.</br>
+ *                                                      Remplacer "@typeParh@" par le type de la variable soumis.
+ * @property {string} fileLog.constructor.errorTypeFile Contient le texte d'erreur si l'URL du fichier log n'est pas un fichier.</br>
+ *                                                      Remplacer "@path@" par l'URL du fichier.
+ * @property {object} fileLog.getByte Contient le texte de la fonction [Class FileLog.getByte()]{@link module:fileLog~FileLog#getByte}.
+ * @property {string} fileLog.getByte.errorClose Contient le texte d'erreur si le fichier de log est fermé.</br>
+ *                                               Remplacer "@path@" par l'URL du fichier et "@fn@" par le numéro du descripteur de fichier.
+ * @property {object} fileLog.write Contient le texte de la fonction [Class FileLog.write()]{@link module:fileLog~FileLog#write}.
+ * @property {string} fileLog.write.errorTypeParam Contient le texte d'erreur si le texte à écrire n'est pas une chaine de caractères.</br>
+ *                                                 Remplacer "@path@" par l'URL du fichier et "@typeTxt@" par le type de la variable soumis.
+ * @property {string} fileLog.write.errorClose Contient le texte d'erreur si le fichier de log est fermé.</br>
+ *                                             Remplacer "@path@" par l'URL du fichier et "@fn@" par le numéro du descripteur de fichier.
  */
 
 /**
@@ -25,4 +39,5 @@
  * @property {string} typePath="TYPE_PATH" Le code erreur est utilisé si le type de fichier est erroné.</br>
  *                                         Il sera utilisé par exemple s'il y a un fichier au lieu d'un dossier.
  * @property {string} notInList="NOT_IN_LIST_TEST" Le code d'erreur est utilisé si le test ne fait pas partie de la liste [Class FoldSystem.LIST_TEST]{@link module:foldSystem~FoldSystem#LIST_TEST}.
+ * @property {string} fileClose="FILE_CLOSE" Le code d'erreur est utilisé quand le fichier est déjà fermé.
  */
