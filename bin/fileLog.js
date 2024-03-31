@@ -3,7 +3,7 @@
  * @module fileLog
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2024
- * @version 1.6.1
+ * @version 1.6.2
  */
 
 const FS = require("fs");
@@ -21,11 +21,14 @@ const TXT = require('./../json/txt.json').fileLog;
 const ERROR = require("./../json/error.json");
 
 /**
+ * La fonction permet d'écrire dans un fichier log.</br>
+ * Si le fichier existe déjà, le fichier sera écrasé.</br>
+ * Une fois l'écriture terminée, utilisée [Class FileLog.close()]{@link module:fileLog~FileLog#close}. Le fichier sera fermé automatiquement à la fin du programme en cours.
  * @class
  */
 class FileLog {
     /**
-     * La constant contient l'url absolue du fichier.
+     * La constante contient l'URL absolue du fichier.
      * @type {string}
      */
     #PATH;
@@ -35,14 +38,14 @@ class FileLog {
      */
     #FILEHANDLER;
     /**
-     * La constente indique si le descripteur de fichier est fermer via close.
+     * La constante indique si le descripteur de fichier est fermé via [Class FileLog.close()]{@link module:fileLog~FileLog#close}.
      * @type {boolean}
      * @default true;
      */
     #CLOSE = true;
 
     /**
-     * Contient le nombre de byte écrit dans le fichier.
+     * Contient le nombre d'Octets écrit dans le fichier via [Class FileLog.write()]{@link module:fileLog~FileLog#write}.
      * @type {bigint}
      * @default 0n
      */
@@ -50,7 +53,14 @@ class FileLog {
 
     /**
      * @constructor
-     * @param {string} path L'url du fichier de log
+     * @param {string} path L'URL du fichier de log.
+     * @throws Renvoie une erreur "[PARAM_TYPE]{@link ERROR}" si l'URL du fichier de log n'est pas une chaine de caractères.</br>
+     *         Renvoie une erreur "[TYPE_PATH]{@link ERROR}" si le fichier de log n'est pas un fichier.
+     * @see [TXT]{@link module:fileLog~TXT} est utilisé.
+     * @see [ERROR]{@link module:fileLog~ERROR} est utilisé.
+     * @see [Class FileLog.PATH]{@link module:fileLog~FileLog#PATH} est utilisé.
+     * @see [Class FileLog.FILEHANDLER]{@link module:fileLog~FileLog#FILEHANDLER} est utilisé.
+     * @see [Class FileLog.CLOSE]{@link module:fileLog~FileLog#CLOSE} est utilisé.
      */
     constructor (path) {
             let pathAbsolue;
@@ -92,16 +102,25 @@ class FileLog {
 
 //   GET DATA
     /**
-     * LA fonction permet de récupérer l'url absolue du fichier
+     * La fonction permet de récupérer l'URL absolue du fichier.
+     * @function
      * @returns {string}
+     * @see [Class FileLog.PATH]{@link module:fileLog~FileLog#PATH} est utilisé.
      */
     getPath () {
         return this.#PATH;
     }
 
     /**
-     * La fonction permet de récupérer le nombre d'octer du fichier
+     * La fonction permet de récupérer le nombre d'octets du fichier.
+     * @function
      * @returns {bigint}
+     * @throws Renvoie une erreur "[FILE_CLOSE]{@link ERROR}" si le fichier a été fermer par [Class FileLog.close()]{@link module:fileLog~FileLog#close}.
+     * @see [TXT]{@link module:fileLog~TXT} est utilisé.
+     * @see [ERROR]{@link module:fileLog~ERROR} est utilisé.
+     * @see [Class FileLog.PATH]{@link module:fileLog~FileLog#PATH} est utilisé.
+     * @see [Class FileLog.FILEHANDLER]{@link module:fileLog~FileLog#FILEHANDLER} est utilisé.
+     * @see [Class FileLog.CLOSE]{@link module:fileLog~FileLog#CLOSE} est utilisé.
      */
     getByte () {
         let path = this.#PATH;
@@ -127,8 +146,10 @@ class FileLog {
     }
 
     /**
-     * La fonction permet de récupérer le nombre d'octer écrit dans le fichier via cette instance
+     * La fonction permet de récupérer le nombre d'octets écrit dans le fichier via cette instance.
+     * @function
      * @returns {bigint}
+     * @see [Class FileLog.BYTE_WRITE]{@link module:fileLog~FileLog#BYTE_WRITE} est utilisé.
      */
     getByteWrite () {
         return this.#BYTE_WRITE;
@@ -136,9 +157,17 @@ class FileLog {
 
 //   WRITE
     /**
-     * La fonction écrit dans le fichier
-     * @param {string} txt 
-     * @returns {bigint} Le nombre d'octer écrit dans le fichier
+     * La fonction écrit dans le fichier de log.
+     * @function
+     * @param {string} txt Le texte a écrire.
+     * @returns {bigint} Le nombre d'octets écrit dans le fichier.
+     * @throws Renvoie une erreur "[PARAM_TYPE]{@link ERROR}" si le texte à écrire n'est pas une chaine de caractère.</br>
+     *         Renvoie une erreur "[FILE_CLOSE]{@link ERROR}" si le fichier a été fermer par [Class FileLog.close()]{@link module:fileLog~FileLog#close}.
+     * @see [TXT]{@link module:fileLog~TXT} est utilisé.
+     * @see [ERROR]{@link module:fileLog~ERROR} est utilisé.
+     * @see [Class FileLog.FILEHANDLER]{@link module:fileLog~FileLog#FILEHANDLER} est utilisé.
+     * @see [Class FileLog.CLOSE]{@link module:fileLog~FileLog#CLOSE} est utilisé.
+     * @see [Class FileLog.BYTE_WRITE]{@link module:fileLog~FileLog#BYTE_WRITE} est utilisé.
      */
     write (txt) {
         let fn = this.#FILEHANDLER;
@@ -180,6 +209,8 @@ class FileLog {
     /**
      * La function ferme le fichier.
      * @function
+     * @see [Class FileLog.FILEHANDLER]{@link module:fileLog~FileLog#FILEHANDLER} est utilisé.
+     * @see [Class FileLog.CLOSE]{@link module:fileLog~FileLog#CLOSE} est utilisé.
      */
     close () {
         let fn = this.#FILEHANDLER;
