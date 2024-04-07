@@ -23,5 +23,12 @@
             "errorTypeParam": "Les données a écrire dans le fichier de log \"@path@\" n'estn'est pas une chaine de caractère mais un \"@typeTxt@\"",
             "errorClose": "Le descripteur de fichier de log \"@path@\"(@fn@) a été fermer."
         }
+    },
+    "envTest": {
+        "setPathWork": {
+            "errorType": "L'url du dossier de test n'est pas une chaine de caractère mais un \"@typePath@\".",
+            "errorNotExist": "L'url du dossier de test \"@path@\" n'existe pas.",
+            "errorNotFold": "L'url du dossier de test \"@path@\" n'est pas un dossier."
+        }
     }
 }
