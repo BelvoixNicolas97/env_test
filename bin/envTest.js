@@ -3,7 +3,7 @@
  * @module envTest
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2024
- * @version 1.2.0
+ * @version 1.2.1
  */
 
 const PATH = require("path");
@@ -138,7 +138,7 @@ class EnvTest {
                     }
 
                 // Vérification du nobre de test
-                    if (listTest[module].length <= 0) {
+                    if (Object.keys(listTest[module]).length <= 0) {
                         delete listTest[module];
                     }
             }
