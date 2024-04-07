@@ -4,16 +4,18 @@ const EnvTest = require("../bin/envTest.js");
 const PATH_TEST = "./test/testEnvTest";
 const MODEL_LIST_TEST = {
     test2: {
-        file: "file"
+        fileVide: ""
     }
 };
 
-async function main () {
-        let envTest;
+let ENV_TEST;
 
+async function main () {
     Cli.titre("Test de la class EnvTest");
 
-        envTest = testInitEnvTest();
+        ENV_TEST = testInitEnvTest();
+        testListTest();
+
 }
 
 function testInitEnvTest () {
@@ -77,6 +79,41 @@ function testInitEnvTest () {
 
         // Envoie
             return envTest;
+}
+
+function testListTest () {
+    Cli.subTitre(`Test de la liste de test générer`);
+        let listTest = {};
+
+    Cli.txt(`Récupération de la liste`);
+        try {
+            for (let module of ENV_TEST.getListModule()) {
+                listTest[module] = {};
+
+                for (let test of ENV_TEST.getListTest(module)) {
+                    listTest[module][test] = "";
+                }
+            }
+
+            console.log(listTest);
+        } catch (error) {
+            Cli.cleanUpLine();
+            Cli.inValid(`La récupération de la liste de tes a échouer.`);
+            Cli.inValid(error);
+
+            throw error;
+        }
+        Cli.cleanUpLine();
+        Cli.valid(`Récupération de la liste términer`);
+        if (JSON.stringify(listTest) === JSON.stringify(MODEL_LIST_TEST)) {
+            Cli.valid(JSON.stringify(listTest, null, 2));
+        }else {
+            Cli.miss(`La liste n'est différent`);
+            Cli.miss("Model:")
+            Cli.miss(JSON.stringify(MODEL_LIST_TEST, null, 2));
+            Cli.miss("Ressus:")
+            Cli.miss(JSON.stringify(listTest, null, 2));
+        }
 }
 
 main();
