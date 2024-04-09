@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "clean": "npx rimraf ./doc ./package-lock.json ./node_modules ./test/out/",
+    "clean": "npx rimraf ./doc ./package-lock.json ./node_modules ./test/out/ ./test/outTestEnvTest ./out",
 
     "doc": "npm run docPublic && npm run docPrivate",
     "docPublic": "npx jsdoc -c ./conf/docPublic.json",
