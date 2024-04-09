@@ -3,11 +3,12 @@
  * @module envTest
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2024
- * @version 1.2.1
+ * @version 1.3.1
  */
 
 const PATH = require("path");
 const FS = require("fs");
+const FoldSystem = require("./foldSystem.js");
 
 /**
  * Contient [TXT.fileLog]{@link TXT}.
@@ -38,12 +39,22 @@ class EnvTest {
      */
     #LIST_TEST = {};
 
-    constructor (pathIn = null) {
+    /**
+     * Contient la [Class FoldSystem]{@link module:foldSystem~FoldSystem};
+     * @type {module:foldSystem~FoldSystem}
+     */
+    #FOLD_SYSTEM;
+
+    constructor (pathIn = null, pathOut = null) {
         let pathInFinal = (pathIn === null)?this.#PATH_WORK:pathIn;
+        let pathOutFinal = (pathOut === null)?"./out":pathOut;
 
         // Intégration de pathWork
             this.#setPathWork(pathInFinal);
             this.#updateListTest();
+
+        // Intégration de FOLD_SYSTEM
+            this.#FOLD_SYSTEM = new FoldSystem(pathOutFinal);
     }
 
 // PATH WORK

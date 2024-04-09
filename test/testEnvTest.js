@@ -2,6 +2,7 @@ const Cli = require("../bin/Cli.js");
 const EnvTest = require("../bin/envTest.js");
 
 const PATH_TEST = "./test/testEnvTest";
+const PATH_OUT = "./test/outTestEnvTest"
 const MODEL_LIST_TEST = {
     test2: {
         fileVide: ""
@@ -64,7 +65,7 @@ function testInitEnvTest () {
 
         Cli.txt(`Initialisation sur un dossier valide`);
             try {
-                envTest = new EnvTest(PATH_TEST);
+                envTest = new EnvTest(PATH_TEST, PATH_OUT);
 
                 Cli.cleanUpLine();
                 Cli.valid(`Initialisation sur un dossier valide a aboutie.`);
