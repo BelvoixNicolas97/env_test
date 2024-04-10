@@ -47,6 +47,12 @@
  *                                                      Remplacer "@module@" par le nom du module.
  * @property {string} envTest.test.errorNotInListTest Contient le texte d'erreur si le test ne fait pas partie du module.</br>
  *                                                    Remplacer "@module@" par le nom du module et "@test@" par le nom du test.
+ * @property {string} envTest.test.terminalTitre Contient le titre du terminal.</br>
+ *                                               Remplacer "@module@" par le nom du module et "@test@" par le nom du test.
+ * @property {string} envTest.test.titreTest Contient le titre du test.</br>
+ *                                           Remplacer "@module@" par le nom du module et "@test@" par le nom du test.
+ * @property {string} envTest.test.errorTest Contient le texte d'erreur du test.</br>
+ *                                           Remplacer "@module@" par le nom du module et "@test@" par le nom du test.
  */
 
 /**

@@ -36,7 +36,10 @@
         },
         "test": {
             "errorNotInListModule": "Le module \"@module@\" n'est pas dans la liste de module de test.",
-            "errorNotInListTest": "Le test \"@module@.@test@\" n'est pas dans la liste de test."
+            "errorNotInListTest": "Le test \"@module@.@test@\" n'est pas dans la liste de test.",
+            "terminalTitre": "Teste du module \"@module@\" test \"@test@\" en cours...",
+            "titreTest": "Teste du module \"@module@\" test \"@test@\"",
+            "errorTest": "Une erreur s'est produite lors du test du module \"@module@\" test \"@test@\"."
         }
     }
 }

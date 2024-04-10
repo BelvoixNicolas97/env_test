@@ -3,7 +3,7 @@
  * @module envTest
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2024
- * @version 1.4.2
+ * @version 1.4.4
  * @requires module:foldSystem~FoldSystem
  * @requires module:fileLog~FileLog
  * @requires module:cli~Cli
@@ -318,17 +318,19 @@ class EnvTest {
             };
 
         // Changement du titre
-            process.title = `Teste du module ${module}.${test}`;
+            process.title = TXT.test.terminalTitre.replace("@module@", module).replace("@test@", test);
 
         // Lancement du test
             try {
+                Cli.titre(TXT.test.titreTest.replace("@module@", module).replace("@test@", test));
+
                 testImport = require(pathTest);
                 classTest = new testImport(Cli, pathFoldTest);
                 await classTest.start();
             } catch (error) {
                 Cli.txt("");
                 Cli.txt("");
-                Cli.inValid(`Une erreur c'est produit lors du test du module ${module}.${test}.`);
+                Cli.inValid(TXT.test.errorTest.replace("@module@", module).replace("@test@", test));
                 Cli.inValid(error);
             }
 
