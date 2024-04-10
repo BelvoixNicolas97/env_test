@@ -3,7 +3,7 @@
  * @module foldSystem
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2024
- * @version 1.9.4
+ * @version 1.10.4
  */
 
 const Path = require("path");
@@ -120,6 +120,16 @@ class FoldSystem {
 
                 Fs.rmSync(pathDir, {recursive: true, force: true});
             }
+    }
+
+    /**
+     * La fonction permet de récupérer l'URL absolue du dossier de test.
+     * @function
+     * @returns {string}
+     * @see [Class FoldSystem.PATH]{@link module:foldSystem~FoldSystem#PATH} est utilisé.
+     */
+    getPath () {
+        return this.#PATH;
     }
 
 //   LIST TEST
