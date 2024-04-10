@@ -4,16 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "clean": "npx rimraf ./doc ./package-lock.json ./node_modules ./test/out/",
+    "clean": "npx rimraf ./doc ./package-lock.json ./node_modules ./test/out/ ./test/outTestEnvTest ./out",
 
     "doc": "npm run docPublic && npm run docPrivate",
     "docPublic": "npx jsdoc -c ./conf/docPublic.json",
     "docPrivate": "npx jsdoc -c ./conf/docPrivate.json",
 
-    "test": "npm run testClassCli && npm run testClassFoldSystem && npm run testClassFileLog",
+    "test": "npm run testClassCli && npm run testClassFoldSystem && npm run testClassFileLog && npm run testClassEnvTest",
     "testClassCli": "node test/testCli.js",
     "testClassFoldSystem": "node test/testFoldSystem.js",
-    "testClassFileLog": "node test/testFileLog.js"
+    "testClassFileLog": "node test/testFileLog.js",
+    "testClassEnvTest": "node test/testEnvTest.js"
   },
   "author": "Nicolas Belvoix",
   "license": "ISC",

@@ -3,3 +3,5 @@
 /doc
 *.temp.*
 /test/out
+/test/outTestEnvTest
+/out

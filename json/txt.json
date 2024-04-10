@@ -23,5 +23,23 @@
             "errorTypeParam": "Les données a écrire dans le fichier de log \"@path@\" n'estn'est pas une chaine de caractère mais un \"@typeTxt@\"",
             "errorClose": "Le descripteur de fichier de log \"@path@\"(@fn@) a été fermer."
         }
+    },
+    "envTest": {
+        "setPathWork": {
+            "errorType": "L'URL du dossier de test n'est pas une chaine de caractère mais un \"@typePath@\".",
+            "errorNotExist": "L'URL du dossier de test \"@path@\" n'existe pas.",
+            "errorNotFold": "L'URL du dossier de test \"@path@\" n'est pas un dossier."
+        },
+        "getListTest": {
+            "errorType": "Le nom du module n'est pas une chaine de caractère mais un \"@typeModule@\".",
+            "errorInList": "Le module \"@module@\" ne n'existe pas."
+        },
+        "test": {
+            "errorNotInListModule": "Le module \"@module@\" n'est pas dans la liste de module de test.",
+            "errorNotInListTest": "Le test \"@module@.@test@\" n'est pas dans la liste de test.",
+            "terminalTitre": "Teste du module \"@module@\" test \"@test@\" en cours...",
+            "titreTest": "Teste du module \"@module@\" test \"@test@\"",
+            "errorTest": "Une erreur s'est produite lors du test du module \"@module@\" test \"@test@\"."
+        }
     }
 }

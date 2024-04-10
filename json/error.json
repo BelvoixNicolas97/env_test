@@ -1,6 +1,7 @@
 {
     "paramType": "PARAM_TYPE",
     "typePath": "TYPE_PATH",
-    "notInList": "NOT_IN_LIST_TEST",
-    "fileClose": "FILE_CLOSE"
+    "notInList": "NOT_IN_LIST",
+    "fileClose": "FILE_CLOSE",
+    "notInListTest": "NOT_IN_LIST_TEST"
 }
