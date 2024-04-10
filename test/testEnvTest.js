@@ -6,6 +6,15 @@ const PATH_OUT = "./test/outTestEnvTest"
 const MODEL_LIST_TEST = {
     test2: {
         fileVide: ""
+    },
+    error: {
+      testNotType: "",
+      testFunction: "",
+      isArray: ""
+    },
+    valid: {
+      valideFunction: "",
+      class: ""
     }
 };
 
@@ -96,8 +105,6 @@ function testListTest () {
                     listTest[module][test] = "";
                 }
             }
-
-            console.log(listTest);
         } catch (error) {
             Cli.cleanUpLine();
             Cli.inValid(`La récupération de la liste de tes a échouer.`);
@@ -136,6 +143,8 @@ async function test () {
 
     Cli.txt(`Lancement de ${listTest.length} tests :`);
         for (let test of listTest) {
+            Cli.subTitre(`Test "${test.module}.${test.test}" en cours`);
+
             await ENV_TEST.test(test.module, test.test);
         }
         Cli.valid(`Les ${listTest.length} tests en été fait`);
