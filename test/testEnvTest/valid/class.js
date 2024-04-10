@@ -3,13 +3,13 @@ class Test {
     #PATH
 
     constructor (cli, path) {
-        cli.titre(`Test en construction`);
+        cli.subTitre(`Test en construction`);
             this.#CLI = cli;
             this.#PATH = path;
     }
 
     start () {
-        this.#CLI.txt(`Le test a été lancer`);
+        this.#CLI.subTitre(`Le test a été lancer`);
     }
 }
 

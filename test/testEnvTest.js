@@ -143,8 +143,6 @@ async function test () {
 
     Cli.txt(`Lancement de ${listTest.length} tests :`);
         for (let test of listTest) {
-            Cli.subTitre(`Test "${test.module}.${test.test}" en cours`);
-
             await ENV_TEST.test(test.module, test.test);
         }
         Cli.valid(`Les ${listTest.length} tests en été fait`);
