@@ -3,7 +3,10 @@
  * @module envTest
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2024
- * @version 1.4.1
+ * @version 1.4.2
+ * @requires module:foldSystem~FoldSystem
+ * @requires module:fileLog~FileLog
+ * @requires module:cli~Cli
  */
 
 const PATH = require("path");
@@ -14,7 +17,7 @@ const FileLog = require("./fileLog.js");
 const Cli = require("./Cli.js");
 
 /**
- * Contient [TXT.fileLog]{@link TXT}.
+ * Contient [TXT.envTest]{@link TXT}.
  * @constant
  * @type {object}
  */
@@ -25,29 +28,43 @@ const TXT = require('./../json/txt.json').envTest;
 const ERROR = require("./../json/error.json");
 
 /**
+ * La classe permet de gérer un environnement de test.
  * @class
  */
 class EnvTest {
     /**
-     * Url absolue du dossier de test.
+     * La variable stocke l'URL absolue du dossier ou se trouve les fichiers de tests.
      * @type {string}
      * @default "./test"
      */
     #PATH_WORK = "./test";
 
     /**
-     * Liste des modules et des test.
-     * @type {Object}
+     * La variable stocke la liste des tests.
+     * @type {Object<module, Object>}
      * @default "{}"
+     * @property {Object<test, string>} [nomDuModule] Contiennent les tests du module (le nom de la clé correspond au nom du dossier).
+     * @property {string} nomDuModule.test Contient l'URL absolue du fichier Javascript du test à réaliser. Le nom de la clé correspond au nom du fichier sans l'extension.
      */
     #LIST_TEST = {};
 
     /**
-     * Contient la [Class FoldSystem]{@link module:foldSystem~FoldSystem};
+     * La variable contient une instance de là [Class FoldSystem]{@link module:foldSystem~FoldSystem}.
      * @type {module:foldSystem~FoldSystem}
      */
     #FOLD_SYSTEM;
 
+    /**
+     * @constructor
+     * @param {?string} [pathIn = null] URL du dossier de test.
+     * @param {?string} [pathOut = null] URL du dossier de sortie.
+     * @throws Renvoie une erreur "[PARAM_TYPE]{@link ERROR}" ou "[TYPE_PATH]{@link ERROR}" par [Class EnvTest.setPathWork()]{@link module:envTest~EnvTest#setPathWork}.
+     * @throws Renvoie une erreur "[PARAM_TYPE]{@link ERROR}" ou "[TYPE_PATH]{@link ERROR}" par [Class FoldSystem]{@link module:foldSystem~FoldSystem}.
+     * @see [Class FoldSystem]{@link module:foldSystem~FoldSystem} est utilisé.
+     * @see [Class EnvTest.PATH_WORK]{@link module:envTest~EnvTest#PATH_WORK} est utilisé.
+     * @see [Class EnvTest.setPathWork()]{@link module:envTest~EnvTest#setPathWork} est utilisé.
+     * @see [Class EnvTest.updateListTest()]{@link module:envTest~EnvTest#updateListTest} est utilisé.
+     */
     constructor (pathIn = null, pathOut = null) {
         let pathInFinal = (pathIn === null)?this.#PATH_WORK:pathIn;
         let pathOutFinal = (pathOut === null)?"./out":pathOut;
@@ -66,10 +83,15 @@ class EnvTest {
 
 // PATH WORK
     /**
-     * Permet d'initialiser l'url du dossier de test.
+     * La fonction va initialiser l'URL absolue du dossier de test dans [Class EnvTest.PATH_WORK]{@link module:envTest~EnvTest#PATH_WORK}.
      * @function
-     * @param {string} path 
-     * @returns {string} Url absolue du dossier de test.
+     * @param {string} path Url du dossier de test.
+     * @returns {string} URL absolue du dossier de test.
+     * @throws Renvoie une erreur "[PARAM_TYPE]{@link ERROR}" si l'URL du dossier de test n'est pas une chaine de caractère.</br>
+     *         Renvoie une erreur "[TYPE_PATH]{@link ERROR}" si l'URL du dossier de test n'existe pas ou si c'est un fichier.
+     * @see [TXT]{@link module:envTest~TXT} est utilisé.
+     * @see [ERROR]{@link module:envTest~ERROR} est utilisé.
+     * @see [Class EnvTest.PATH_WORK]{@link module:envTest~EnvTest#PATH_WORK} est utilisé.
      */
     #setPathWork = function (path) {
         let pathFormat = (typeof path == "string")?PATH.resolve(path):"";
@@ -106,9 +128,10 @@ class EnvTest {
     }
 
     /**
-     * Permet de récupérer l'url du dossier de test.
+     * La fonction permet de récupérer l'URL absolue du dossier de test.
      * @function
      * @returns {string}
+     * @see [Class EnvTest.PATH_WORK]{@link module:envTest~EnvTest#PATH_WORK} est utilisé.
      */
     getPathWork () {
         return this.#PATH_WORK;
@@ -116,8 +139,11 @@ class EnvTest {
 
 // LIST TEST
     /**
-     * Update de la liste de test
+     * La fonction crée une liste de test à partir du dossier [Class EnvTest.PATHWORK]{@link module:envTest~EnvTest#PATH_WORK}.</br>
+     * Les clés sont le nom des sous-dossiers et les sous-clés le nom des fichiers Javascript sans leurs extensions.
      * @function
+     * @see [Class EnvTest.PATH_WORK]{@link module:envTest~EnvTest#PATH_WORK} est utilisé.
+     * @see [Class EnvTest.LIST_TEST]{@link module:envTest~EnvTest#LIST_TEST} est utilisé.
      */
     #updateListTest = function () {
         let pathWork = this.#PATH_WORK;
@@ -166,8 +192,10 @@ class EnvTest {
     }
 
     /**
-     * Retourne la liste des module de test
-     * @returns {string[]} List module
+     * La fonction renvoie la liste des modules de test stocker dans [Class EnvTest.LIST_TEST]{@link module:envTest~EnvTest#LIST_TEST}.
+     * @function
+     * @returns {string[]} Liste des modules.
+     * @see [Class EnvTest.LIST_TEST]{@link module:envTest~EnvTest#LIST_TEST} est utilisé.
      */
     getListModule () {
         let modules = Object.keys(this.#LIST_TEST);
@@ -177,10 +205,15 @@ class EnvTest {
     }
 
     /**
-     * Récupére la liste des tests d'un module.
+     * La fonction permet de récupérer la liste des tests d'un module.
      * @function
-     * @param {string} module Le module a récupérer
-     * @returns {string[]} Nom des tests.
+     * @param {string} module Le nom du module.
+     * @returns {string[]} Liste de noms des tests du module.
+     * @throws Renvoie une erreur "[PARAM_TYPE]{@link ERROR}" si le nom du module n'est pas une chaine de caractères.</br>
+     *         Renvoie une erreur "[NOT_IN_LIST_TEST]{@link ERROR}" si le module ne fait pas partie de la liste.
+     * @see [TXT]{@link module:envTest~TXT} est utilisé.
+     * @see [ERROR]{@link module:envTest~ERROR} est utilisé.
+     * @see [Class EnvTest.LIST_TEST]{@link module:envTest~EnvTest#LIST_TEST} est utilisé.
      */
     getListTest (module) {
         let listModule = Object.keys(this.#LIST_TEST);
@@ -213,7 +246,29 @@ class EnvTest {
     }
 
 // TEST
-     async test (module, test) {
+    /**
+     * La fonction permet de lancer un test.</br>
+     * Pour chaque test [Class FoldSystem.createDirTest()]{@link module:foldSystem~FoldSystem#createDirTest} sera utilisé pour créer un dossier de test.</br>
+     * Chaque test recevra une version de [Class Cli]{@link module:cli~Cli} et de l'URL absolue de son dossier de test.</br>
+     * Chaque test enregistre la sortie du terminal dans un fichier "out.txt" via [Class fileLog]{@link module:fileLog~FileLog}.
+     * @async
+     * @function
+     * @param {string} module Le nom d'un module contenue dans [Class EnvTest.getListModule()]{@link module:envTest~EnvTest#getListModule}.
+     * @param {string} test Le nom du test contenue dans [Class EnvTest.getListTest()]{@link module:envTest~EnvTest#getListTest}.
+     * @throws Renvoie une erreur "[NOT_IN_LIST_TEST]{@link ERROR}" si le module ou le test ne font pas partie de la liste.
+     * @throws Renvoie une erreur "[PARAM_TYPE]{@link ERROR}" par [Class FoldSystem.createDirTest()]{@link module:foldSystem~FoldSystem#createDirTest}.</br>
+     *         Renvoie une erreur "[NOT_IN_LIST]{@link ERROR}" par [Class FoldSystem.getTestUrl()]{@link module:foldSystem~FoldSystem#getTestUrl}.
+     * @throws Renvoie une erreur "[PARAM_TYPE]{@link ERROR}" ou "[TYPE_PATH]{@link ERROR}" par [Class FileLog]{@link module:fileLog~FileLog}.</br>
+     *         Renvoie une erreur "[PARAM_TYPE]{@link ERROR}" ou "[FILE_CLOSE]{@link ERROR}" par [Class FileLog.write()]{@link module:fileLog~FileLog#write}.
+     * @see [TXT]{@link module:envTest~TXT} est utilisé.
+     * @see [ERROR]{@link module:envTest~ERROR} est utilisé.
+     * @see [Class FoldSystem.createDirTest()]{@link module:foldSystem~FoldSystem#createDirTest} est utilisé.
+     * @see [Class FoldSystem.getTestUrl()]{@link module:foldSystem~FoldSystem#getTestUrl} est utilisé.
+     * @see [Class FileLog]{@link module:fileLog~FileLog} est utilisé.
+     * @see [Class FileLog.write()]{@link module:fileLog~FileLog#write} est utilisé.
+     * @see [Class FileLog.close()]{@link module:fileLog~FileLog#close} est utilisé.
+     */
+    async test (module, test) {
         let isInListModule = Object.keys(this.#LIST_TEST).includes(module);
         let isInListTest = (isInListModule && Object.keys(this.#LIST_TEST[module]).includes(test))?true:false;
         let pathTest = (isInListModule && isInListTest)?this.#LIST_TEST[module][test]:"";

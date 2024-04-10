@@ -164,7 +164,7 @@ class FoldSystem {
      * @function
      * @param {string} testName Doit être le nom de test contenue dans la liste de [Class FoldSystem.getListTest()]{@link module:foldSystem~FoldSystem#getTestUrl}.
      * @returns {string} L'URL absolue du sous-dossier de test.
-     * @throws Renvoie une erreur "[NOT_IN_LIST_TEST]{@link ERROR}" si le test ne fait pas partie de [Class FoldSystem.LIST_TEST]{@link module:foldSystem~FoldSystem#LIST_TEST}.
+     * @throws Renvoie une erreur "[NOT_IN_LIST]{@link ERROR}" si le test ne fait pas partie de [Class FoldSystem.LIST_TEST]{@link module:foldSystem~FoldSystem#LIST_TEST}.
      * @see [TXT]{@link module:foldSystem~TXT} est utilisé.
      * @see [ERROR]{@link module:foldSystem~ERROR} est utilisé.
      * @see [Class FoldSystem.LIST_TEST]{@link module:foldSystem~FoldSystem#LIST_TEST} est utilisé.
