@@ -3,12 +3,15 @@
  * @module envTest
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2024
- * @version 1.3.1
+ * @version 1.4.1
  */
 
 const PATH = require("path");
 const FS = require("fs");
+
 const FoldSystem = require("./foldSystem.js");
+const FileLog = require("./fileLog.js");
+const Cli = require("./Cli.js");
 
 /**
  * Contient [TXT.fileLog]{@link TXT}.
@@ -55,6 +58,10 @@ class EnvTest {
 
         // Intégration de FOLD_SYSTEM
             this.#FOLD_SYSTEM = new FoldSystem(pathOutFinal);
+
+        // Sauvegarde de la sortie du terminal
+            process.stdout.writeSave = process.stdout.write;
+            process.stderr.writeSave = process.stderr.write;
     }
 
 // PATH WORK
@@ -203,6 +210,82 @@ class EnvTest {
 
         // Envoie
             return listTest;
+    }
+
+// TEST
+     async test (module, test) {
+        let isInListModule = Object.keys(this.#LIST_TEST).includes(module);
+        let isInListTest = (isInListModule && Object.keys(this.#LIST_TEST[module]).includes(test))?true:false;
+        let pathTest = (isInListModule && isInListTest)?this.#LIST_TEST[module][test]:"";
+        let nameFoldTest = `${module}_${test}`;
+        let pathFoldTest = "";
+        let fileLog;
+        let saveTitle = process.title;
+        let testImport;
+        let classTest;
+
+        // Vérification
+            if (!isInListModule) {
+                let txt = TXT.test.errorNotInListModule.replace("@module@", module);
+                let error = new Error(txt);
+
+                error.name = ERROR.notInListTest;
+
+                throw error;
+            }else if (!isInListTest) {
+                let txt = TXT.test.errorNotInListTest.replace("@module@", module).replace("@test@", test);
+                let error = new Error(txt);
+
+                error.name = ERROR.notInListTest;
+
+                throw error;
+            }
+
+        // Création du dossier de test
+            nameFoldTest = this.#FOLD_SYSTEM.createDirTest(nameFoldTest);
+            pathFoldTest = this.#FOLD_SYSTEM.getTestUrl(nameFoldTest);
+
+        // Création du fichier de log
+            fileLog = new FileLog(PATH.join(pathFoldTest, "out.txt"));
+
+        // Connection du terminal au fichier txt
+            process.stdout.write = (data) => {
+                fileLog.write(data);
+                process.stdout.writeSave(data);
+
+                return true;
+            };
+            process.stderr.write = (data) => {
+                fileLog.write(data);
+                process.stderr.writeSave(data);
+
+                return true;
+            };
+
+        // Changement du titre
+            process.title = `Teste du module ${module}.${test}`;
+
+        // Lancement du test
+            try {
+                testImport = require(pathTest);
+                classTest = new testImport(Cli, pathFoldTest);
+                await classTest.start();
+            } catch (error) {
+                Cli.txt("");
+                Cli.txt("");
+                Cli.inValid(`Une erreur c'est produit lors du test du module ${module}.${test}.`);
+                Cli.inValid(error);
+            }
+
+        // D'éconnection du fichier txt du términal
+            process.stdout.write = process.stdout.writeSave;
+            process.stderr.write = process.stderr.writeSave;
+
+        // Fermeture du fichier
+            fileLog.close();
+
+        // Remise a zéro du titre
+            process.title = saveTitle;
     }
 }
 

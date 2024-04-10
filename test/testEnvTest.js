@@ -16,6 +16,7 @@ async function main () {
 
         ENV_TEST = testInitEnvTest();
         testListTest();
+        await test();
 
 }
 
@@ -115,6 +116,29 @@ function testListTest () {
             Cli.miss("Ressus:")
             Cli.miss(JSON.stringify(listTest, null, 2));
         }
+}
+
+async function test () {
+    Cli.subTitre("Test du lancement des tests");
+        let listTest = [];
+
+    Cli.txt("Récupération des tests");
+        for (let module of ENV_TEST.getListModule()) {
+            for (let test of ENV_TEST.getListTest(module)) {
+                listTest.push({
+                    module: module,
+                    test: test
+                });
+            }
+        }
+        Cli.cleanUpLine();
+        Cli.valid(`Récupération des tests términer (${listTest.length} tests récupérés)`);
+
+    Cli.txt(`Lancement de ${listTest.length} tests :`);
+        for (let test of listTest) {
+            await ENV_TEST.test(test.module, test.test);
+        }
+        Cli.valid(`Les ${listTest.length} tests en été fait`);
 }
 
 main();

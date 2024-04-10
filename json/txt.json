@@ -33,6 +33,10 @@
         "getListTest": {
             "errorType": "Le nom du module n'est pas une chaine de caractére mais un \"@typeModule@\".",
             "errorInList": "Le module \"@module@\" ne n'existe pas."
+        },
+        "test": {
+            "errorNotInListModule": "Le module \"@module@\" n'est pas dans la liste de module de test.",
+            "errorNotInListTest": "Le test \"@module@.@test@\" n'est pas dans la liste de test."
         }
     }
 }
