@@ -4,4 +4,5 @@
 *.temp.*
 /test/out
 /test/outTestEnvTest
+/test/testIndex
 /out
