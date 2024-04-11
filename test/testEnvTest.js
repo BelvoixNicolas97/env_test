@@ -4,17 +4,17 @@ const EnvTest = require("../bin/envTest.js");
 const PATH_TEST = "./test/testEnvTest";
 const PATH_OUT = "./test/outTestEnvTest"
 const MODEL_LIST_TEST = {
-    test2: {
-        fileVide: ""
+    "error": {
+        "isArray": "",
+        "testFunction": "",
+        "testNotType": ""
     },
-    error: {
-      testNotType: "",
-      testFunction: "",
-      isArray: ""
+    "test2": {
+        "fileVide": ""
     },
-    valid: {
-      valideFunction: "",
-      class: ""
+    "valid": {
+        "class": "",
+        "valideFunction": ""
     }
 };
 
