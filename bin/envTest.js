@@ -3,7 +3,7 @@
  * @module envTest
  * @author Nicolas Belvoix <belvoixnicolas1997@gmail.com>
  * @copyright Nicolas Belvoix 2024
- * @version 1.4.4
+ * @version 1.5.4
  * @requires module:foldSystem~FoldSystem
  * @requires module:fileLog~FileLog
  * @requires module:cli~Cli
@@ -135,6 +135,17 @@ class EnvTest {
      */
     getPathWork () {
         return this.#PATH_WORK;
+    }
+
+// PATH OUT
+    /**
+     * La fonction permet de récupérer l'URL du dossier de test.
+     * @function
+     * @returns {string}
+     * @see [Class FoldSystem.getPath()]{@link module:foldSystem~FoldSystem#getPath} est utilisé.
+     */
+    getPathOut () {
+        return this.#FOLD_SYSTEM.getPath();
     }
 
 // LIST TEST
