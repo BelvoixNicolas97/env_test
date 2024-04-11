@@ -7,9 +7,7 @@
     "url": "https://github.com/BelvoixNicolas97/env_test.git"
   },
   "main": "index.js",
-  "bin": "echo bin",
   "scripts": {
-    "start": "echo start",
     "clean": "npx rimraf ./doc ./package-lock.json ./node_modules ./test/out/ ./test/outTestEnvTest ./out",
 
     "doc": "npm run docPublic && npm run docPrivate",
