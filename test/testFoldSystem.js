@@ -13,12 +13,14 @@ async function main () {
 }
 
 function initClass () {
+    let foldSystem;
     Cli.subTitre(`Test d'initialisation de la class FoldSystem`);
         Cli.txt(`Initialisation de la Class sans URL du dossier.`);
             try {
-                new FoldSystem();
+                foldSystem = new FoldSystem();
                 Cli.cleanUpLine();
-                Cli.inValid("La Class a été initialiser sans URL de dossier.");
+                Cli.inValid(`La Class a été initialiser sans URL de dossier.`);
+                Cli.inValid(`Path: "${foldSystem.getPath()}"`);
 
                 process.exit();
             } catch (error) {
@@ -30,10 +32,11 @@ function initClass () {
 
         Cli.txt(`Initialisation de la Class sur l'URL d'un fichier.`);
             try {
-                new FoldSystem("./package.json");
+                foldSystem = new FoldSystem("./package.json");
 
                 Cli.cleanUpLine();
                 Cli.inValid(`La Class a été initialiser sur l'URL d'un fichier.`);
+                Cli.inValid(`Path: "${foldSystem.getPath()}"`);
                 Cli.txt("");
             } catch (error) {
                 Cli.cleanUpLine();
@@ -44,14 +47,16 @@ function initClass () {
 
         Cli.txt(`Initialisation de la class sur l'URL du dossier "${PATH_DIR_TEST}".`);
             try {
-                new FoldSystem(PATH_DIR_TEST);
+                foldSystem = new FoldSystem(PATH_DIR_TEST);
 
                 if (Fs.existsSync(PATH_DIR_TEST) && Fs.statSync(PATH_DIR_TEST).isDirectory()) {
                     Cli.cleanUpLine();
                     Cli.valid(`La Class a été initialiser et e dossier "${PATH_DIR_TEST}" a été crée.`);
+                    Cli.valid(`Path: "${foldSystem.getPath()}"`);
                 }else {
                     Cli.cleanUpLine();
                     Cli.miss(`La Class a été initialiser et e dossier "${PATH_DIR_TEST}" n'a pas été crée.`);
+                    Cli.miss(`Path: "${foldSystem.getPath()}"`);
                 }
             } catch (error) {
                 Cli.cleanUpLine();
